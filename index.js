@@ -3,21 +3,9 @@ const app = express();
 const yts = require('yt-search');
 const ytdl = require('ytdl-core');
 const path = require('path');
-const HttpsProxyAgent = require('https-proxy-agent');
-const fetch = require('node-fetch');
-app.set('view engine', 'ejs');
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', async (req,res) => {
-  try {
-  var query = "";
-  if(req.query.q) query = req.query.q;
-  res.render('home', { url: `/audio/${(`${query}`).split(" ").join("+")}`, query: `${query}`});
-  }catch(e) {
-        res.send('Something Went Wrong')
-  }
-}) 
 
+app.get('/', (req,res) => res.send("OK"))
 app.get('/info/:id', async (req,res) => {
   try {
     var query = req.params.id;
@@ -40,7 +28,7 @@ app.get('/info/:id', async (req,res) => {
   }
 })
 
-app.get('/audio/:id', async (req,res) => {
+app.get('/:id', async (req,res) => {
   try {
     var query = req.params.id;
     if(!query)return res.send(400).send({
